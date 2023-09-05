@@ -1,4 +1,5 @@
 using System;
+using Data.Economy.Core;
 using TMPro;
 using UniRx;
 using UnityEngine;

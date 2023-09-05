@@ -1,6 +1,6 @@
 using UniRx;
 
-namespace Data.Economy
+namespace Data.Economy.Core
 {
     public abstract class Bank<T>
     {

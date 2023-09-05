@@ -1,4 +1,5 @@
 ﻿using Data.Economy;
+using Data.Economy.Core;
 
 namespace Zenject.ProjectContext
 {

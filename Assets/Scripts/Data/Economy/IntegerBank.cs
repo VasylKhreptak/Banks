@@ -1,3 +1,4 @@
+using Data.Economy.Core;
 using UnityEngine;
 
 namespace Data.Economy

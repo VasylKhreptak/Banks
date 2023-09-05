@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Data.Economy.Core;
 
 namespace Data.Economy
 {

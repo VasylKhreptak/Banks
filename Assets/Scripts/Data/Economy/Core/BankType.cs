@@ -1,4 +1,4 @@
-namespace Data.Economy
+namespace Data.Economy.Core
 {
     public enum BankType
     {
