@@ -1,5 +1,5 @@
-using Data.Economy;
-using Data.Economy.Core;
+using Plugins.Banks.Data.Economy;
+using Plugins.Banks.Data.Economy.Core;
 using UniRx;
 using UnityEngine;
 using Zenject;
