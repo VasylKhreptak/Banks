@@ -23,7 +23,7 @@ namespace Plugins.Banks.Data.Economy.Graphics
         [Inject]
         private void Constructor(Banks banks)
         {
-            banks.IntegerBanks.TryGetBank(_bankType, out _bank);
+            banks.IntegerBanks.TryGetValue(_bankType, out _bank);
         }
 
         #region MonoBehaviour

@@ -18,7 +18,7 @@ public class BanksTest : MonoBehaviour
 
     private void Awake()
     {
-        _banks.IntegerBanks.TryGetBank(BankType.Coins, out _coinsBank);
+        _banks.IntegerBanks.TryGetValue(BankType.Coins, out _coinsBank);
 
         _coinsBank.Value.Subscribe(value => Debug.Log($"Coins: {value}")).AddTo(this);
     }
