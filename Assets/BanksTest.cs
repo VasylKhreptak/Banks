@@ -6,7 +6,7 @@ using Zenject;
 
 public class BanksTest : MonoBehaviour
 {
-    private Bank<int> _coinsBank;
+    private IntegerBank _coinsBank;
 
     private Banks _banks;
 

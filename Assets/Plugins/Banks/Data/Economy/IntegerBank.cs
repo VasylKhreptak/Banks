@@ -5,7 +5,11 @@ namespace Plugins.Banks.Data.Economy
 {
     public class IntegerBank : Bank<int>
     {
-        public IntegerBank(BankType type, int value) : base(type, value)
+        public IntegerBank() : base(0)
+        {
+        }
+
+        public IntegerBank(int value) : base(value)
         {
         }
 

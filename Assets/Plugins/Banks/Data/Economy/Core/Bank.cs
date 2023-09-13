@@ -4,13 +4,15 @@ namespace Plugins.Banks.Data.Economy.Core
 {
     public abstract class Bank<T>
     {
-        public readonly BankType BankType;
-
         protected readonly ReactiveProperty<T> _value;
 
-        public Bank(BankType type, T value)
+        public Bank()
         {
-            BankType = type;
+            _value = new ReactiveProperty<T>();
+        }
+
+        public Bank(T value)
+        {
             _value = new ReactiveProperty<T>(value);
         }
 

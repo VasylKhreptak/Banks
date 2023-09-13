@@ -10,7 +10,7 @@ namespace Plugins.Banks.Zenject.ProjectContext
         {
             Data.Economy.Banks banks = new Data.Economy.Banks();
 
-            banks.IntegerBanks.Add(BankType.Coins, new IntegerBank(BankType.Coins, 0));
+            banks.IntegerBanks.Add(BankType.Coins, new IntegerBank(0));
 
             Container.BindInstance(banks).AsSingle();
         }

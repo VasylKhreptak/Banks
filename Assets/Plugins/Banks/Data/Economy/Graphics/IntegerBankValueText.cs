@@ -18,7 +18,7 @@ namespace Plugins.Banks.Data.Economy.Graphics
 
         private IDisposable _subscription;
 
-        private Bank<int> _bank;
+        private IntegerBank _bank;
 
         [Inject]
         private void Constructor(Banks banks)
