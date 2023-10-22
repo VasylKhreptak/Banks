@@ -5,6 +5,10 @@ namespace Plugins.Banks
 {
     public class IntegerBank : Bank<int>
     {
+        public IntegerBank() : base() { }
+
+        public IntegerBank(int value) : base(value) { }
+
         public override void Add(int value)
         {
             value = Mathf.Max(0, value);
