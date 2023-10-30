@@ -5,7 +5,7 @@ namespace Plugins.Banks
 {
     public class ClampedIntegerBank : ClampedBank<int>
     {
-        public ClampedIntegerBank() : base() { }
+        public ClampedIntegerBank() { }
 
         public ClampedIntegerBank(int value, int maxValue) : base(value, maxValue)
         {
@@ -31,6 +31,15 @@ namespace Plugins.Banks
             UpdateFillAmount();
             return true;
         }
+
+        public override void SetValue(int value)
+        {
+            _value.Value = Mathf.Clamp(value, 0, _maxValue.Value);
+
+            UpdateFillAmount();
+        }
+
+        public override void Clear() => SetValue(0);
 
         public override bool HasEnough(int value)
         {
@@ -61,5 +70,7 @@ namespace Plugins.Banks
             _maxValue.Value = value;
             ClampValue();
         }
+
+        public override void Fill() => SetValue(_maxValue.Value);
     }
 }

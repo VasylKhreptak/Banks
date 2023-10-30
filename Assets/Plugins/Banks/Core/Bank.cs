@@ -22,6 +22,10 @@ namespace Plugins.Banks.Core
 
         public abstract bool Spend(T value);
 
+        public abstract void SetValue(T value);
+
+        public abstract void Clear();
+
         public abstract bool HasEnough(T value);
     }
 }

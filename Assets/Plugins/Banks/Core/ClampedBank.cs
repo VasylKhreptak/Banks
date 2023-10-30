@@ -29,5 +29,7 @@ namespace Plugins.Banks.Core
         protected abstract void ClampValue();
 
         public abstract void SetMaxValue(T value);
+
+        public abstract void Fill();
     }
 }

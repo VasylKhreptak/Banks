@@ -5,7 +5,7 @@ namespace Plugins.Banks
 {
     public class IntegerBank : Bank<int>
     {
-        public IntegerBank() : base() { }
+        public IntegerBank() { }
 
         public IntegerBank(int value) : base(value) { }
 
@@ -27,6 +27,15 @@ namespace Plugins.Banks
 
             return true;
         }
+
+        public override void SetValue(int value)
+        {
+            value = Mathf.Max(0, value);
+
+            _value.Value = value;
+        }
+
+        public override void Clear() => SetValue(0);
 
         public override bool HasEnough(int value)
         {
