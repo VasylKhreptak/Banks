@@ -7,16 +7,14 @@ namespace Plugins.Banks
     {
         public ClampedFloatBank() { }
 
-        public ClampedFloatBank(float value, float maxValue) : base(value, maxValue)
-        {
-            ClampValue();
-        }
+        public ClampedFloatBank(float value, float maxValue) : base(value, maxValue) { }
 
         public override void Add(float value)
         {
             value = Mathf.Max(0, value);
             _value.Value = Mathf.Clamp(value + _value.Value, 0, _maxValue.Value);
             UpdateFillAmount();
+            UpdateLeftToFill();
         }
 
         public override bool Spend(float value)
@@ -29,6 +27,7 @@ namespace Plugins.Banks
             _value.Value -= value;
 
             UpdateFillAmount();
+            UpdateLeftToFill();
             return true;
         }
 
@@ -37,6 +36,7 @@ namespace Plugins.Banks
             _value.Value = Mathf.Clamp(value, 0, _maxValue.Value);
 
             UpdateFillAmount();
+            UpdateLeftToFill();
         }
 
         public override void Clear() => SetValue(0);
@@ -62,6 +62,7 @@ namespace Plugins.Banks
         {
             _value.Value = Mathf.Clamp(_value.Value, 0, _maxValue.Value);
             UpdateFillAmount();
+            UpdateLeftToFill();
         }
 
         public override void SetMaxValue(float value)
@@ -72,5 +73,9 @@ namespace Plugins.Banks
         }
 
         public override void Fill() => SetValue(_maxValue.Value);
+
+        protected override void UpdateLeftToFill() => _leftToFill.Value = CalculateLeftToFill();
+
+        protected override float CalculateLeftToFill() => _maxValue.Value - _value.Value;
     }
 }

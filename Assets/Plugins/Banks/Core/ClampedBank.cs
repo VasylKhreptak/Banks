@@ -1,26 +1,37 @@
+using System;
+using Plugins.Banks.Extensions;
 using UniRx;
 
 namespace Plugins.Banks.Core
 {
-    public abstract class ClampedBank<T> : Bank<T>
+    public abstract class ClampedBank<T> : Bank<T> where T : IComparable<T>
+
     {
         protected readonly ReactiveProperty<T> _maxValue;
         protected readonly ReactiveProperty<float> _fillAmount;
-
-        public IReadOnlyReactiveProperty<T> MaxValue => _maxValue;
-        public IReadOnlyReactiveProperty<float> FillAmount => _fillAmount;
+        protected readonly ReactiveProperty<T> _leftToFill;
 
         public ClampedBank()
         {
             _maxValue = new ReactiveProperty<T>();
             _fillAmount = new ReactiveProperty<float>();
+            _leftToFill = new ReactiveProperty<T>();
         }
 
         public ClampedBank(T value, T maxValue) : base(value)
         {
+            maxValue = GenericExtensions.Max(default, maxValue);
+            value = GenericExtensions.Clamp(value, default, maxValue);
+
+            _value.Value = value;
             _maxValue = new ReactiveProperty<T>(maxValue);
             _fillAmount = new ReactiveProperty<float>(CalculateFillAmount());
+            _leftToFill = new ReactiveProperty<T>(CalculateLeftToFill());
         }
+
+        public IReadOnlyReactiveProperty<T> MaxValue => _maxValue;
+        public IReadOnlyReactiveProperty<float> FillAmount => _fillAmount;
+        public IReadOnlyReactiveProperty<T> LeftToFill => _leftToFill;
 
         protected abstract void UpdateFillAmount();
 
@@ -31,5 +42,9 @@ namespace Plugins.Banks.Core
         public abstract void SetMaxValue(T value);
 
         public abstract void Fill();
+
+        protected abstract void UpdateLeftToFill();
+
+        protected abstract T CalculateLeftToFill();
     }
 }
