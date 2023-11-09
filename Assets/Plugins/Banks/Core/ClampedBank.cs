@@ -22,8 +22,8 @@ namespace Plugins.Banks.Core
 
         public ClampedBank(T value, T maxValue) : base(value)
         {
-            maxValue = GenericExtensions.Max(default, maxValue);
-            value = GenericExtensions.Clamp(value, default, maxValue);
+            maxValue = GenericComparer.Max(default, maxValue);
+            value = GenericComparer.Clamp(value, default, maxValue);
 
             _value.Value = value;
             _maxValue = new ReactiveProperty<T>(maxValue);
