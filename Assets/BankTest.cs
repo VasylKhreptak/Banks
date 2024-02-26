@@ -10,6 +10,8 @@ public class BankTest : MonoBehaviour
     [SerializeField] private float _maxValue;
     [SerializeField] private float _fillAmount;
     [SerializeField] private float _leftToFill;
+    [SerializeField] private bool _isEmpty;
+    [SerializeField] private bool _isFull;
 
     private ClampedFloatBank _bank;
 
@@ -21,6 +23,8 @@ public class BankTest : MonoBehaviour
         _bank.MaxValue.Subscribe(value => _maxValue = value);
         _bank.FillAmount.Subscribe(value => _fillAmount = value);
         _bank.LeftToFill.Subscribe(value => _leftToFill = value);
+        _bank.IsEmpty.Subscribe(value => _isEmpty = value);
+        _bank.IsFull.Subscribe(value => _isFull = value);
     }
 
     [Button]
@@ -34,4 +38,7 @@ public class BankTest : MonoBehaviour
 
     [Button]
     private void DecreaseMaxValue() => _bank.SetMaxValue(_bank.MaxValue.Value - 1.5f);
+
+    [Button]
+    private void Clear() => _bank.Clear();
 }
