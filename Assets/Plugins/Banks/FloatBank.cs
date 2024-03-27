@@ -4,31 +4,31 @@ using UniRx;
 
 namespace Plugins.Banks
 {
-    public class IntegerBank : IBank<int>
+    public class FloatBank : IBank<float>
     {
-        private readonly IntReactiveProperty _amount = new IntReactiveProperty();
+        private readonly FloatReactiveProperty _amount = new FloatReactiveProperty();
 
-        public IntegerBank() { }
+        public FloatBank() { }
 
-        public IntegerBank(int value)
+        public FloatBank(float value)
         {
             value = Math.Max(0, value);
 
             _amount.Value = value;
         }
 
-        public IReadOnlyReactiveProperty<int> Amount => _amount;
+        public IReadOnlyReactiveProperty<float> Amount => _amount;
 
         public IReadOnlyReactiveProperty<bool> IsEmpty => _amount.Select(x => x == 0).ToReadOnlyReactiveProperty();
 
-        public void Add(int value)
+        public void Add(float value)
         {
             value = Math.Max(0, value);
 
             _amount.Value += value;
         }
 
-        public bool Spend(int value)
+        public bool Spend(float value)
         {
             value = Math.Max(0, value);
 
@@ -39,7 +39,7 @@ namespace Plugins.Banks
             return true;
         }
 
-        public void SetValue(int value)
+        public void SetValue(float value)
         {
             value = Math.Max(0, value);
 
@@ -48,6 +48,6 @@ namespace Plugins.Banks
 
         public void Clear() => _amount.Value = 0;
 
-        public bool HasEnough(int value) => _amount.Value >= value;
+        public bool HasEnough(float value) => _amount.Value >= value;
     }
 }

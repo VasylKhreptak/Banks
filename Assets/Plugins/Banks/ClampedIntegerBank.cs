@@ -1,81 +1,90 @@
 ﻿using Plugins.Banks.Core;
+using UniRx;
 using UnityEngine;
 
 namespace Plugins.Banks
 {
-    public class ClampedIntegerBank : ClampedBank<int>
+    public class ClampedIntegerBank : IClampedBank<int>
     {
+        private readonly IntReactiveProperty _amount = new IntReactiveProperty();
+        private readonly IntReactiveProperty _maxAmount = new IntReactiveProperty();
+        private readonly FloatReactiveProperty _fillAmount = new FloatReactiveProperty();
+
         public ClampedIntegerBank() { }
 
-        public ClampedIntegerBank(int value, int maxValue) : base(value, maxValue) { }
-
-        public override void Add(int value)
+        public ClampedIntegerBank(int value, int maxValue)
         {
-            value = Mathf.Max(0, value);
-            _value.Value = Mathf.Clamp(value + _value.Value, 0, _maxValue.Value);
+            maxValue = Mathf.Max(0, maxValue);
+            value = Mathf.Clamp(value, 0, maxValue);
+
+            _amount.Value = value;
+            _maxAmount.Value = maxValue;
+            
             UpdateFillAmount();
-            UpdateLeftToFill();
         }
 
-        public override bool Spend(int value)
+        public IReadOnlyReactiveProperty<int> Amount => _amount;
+
+        public IReadOnlyReactiveProperty<int> MaxAmount => _maxAmount;
+
+        public IReadOnlyReactiveProperty<bool> IsEmpty => _amount.Select(x => x == 0).ToReadOnlyReactiveProperty();
+
+        public IReadOnlyReactiveProperty<bool> IsFull => _amount.Select(x => x == _maxAmount.Value).ToReadOnlyReactiveProperty();
+
+        public IReadOnlyReactiveProperty<float> FillAmount => _fillAmount;
+
+        public void Add(int value)
         {
             value = Mathf.Max(0, value);
 
-            if (value > _value.Value)
-                return false;
-
-            _value.Value -= value;
+            _amount.Value = Mathf.Clamp(value + _amount.Value, 0, _maxAmount.Value);
 
             UpdateFillAmount();
-            UpdateLeftToFill();
+        }
+
+        public bool Spend(int value)
+        {
+            value = Mathf.Max(0, value);
+
+            if (HasEnough(value) == false)
+                return false;
+
+            _amount.Value -= value;
+
+            UpdateFillAmount();
             return true;
         }
 
-        public override void SetValue(int value)
+        public void SetValue(int value)
         {
-            _value.Value = Mathf.Clamp(value, 0, _maxValue.Value);
+            value = Mathf.Clamp(value, 0, _maxAmount.Value);
+
+            _amount.Value = value;
 
             UpdateFillAmount();
-            UpdateLeftToFill();
         }
 
-        public override void Clear() => SetValue(0);
-
-        public override bool HasEnough(int value)
+        public void SetMaxValue(int value)
         {
             value = Mathf.Max(0, value);
 
-            return _value.Value >= value;
+            _maxAmount.Value = value;
+
+            SetValue(_amount.Value);
         }
 
-        protected override void UpdateFillAmount() => _fillAmount.Value = CalculateFillAmount();
+        public void Clear() => SetValue(0);
 
-        protected override float CalculateFillAmount()
+        public bool HasEnough(int value) => _amount.Value >= value;
+
+        private void UpdateFillAmount() => _fillAmount.Value = CalculateFillAmount();
+
+        private float CalculateFillAmount()
         {
-            if (_maxValue.Value == 0)
+            if (_maxAmount.Value == 0)
                 return 0;
 
-            return _value.Value / (float)_maxValue.Value;
+            return _amount.Value / (float)_maxAmount.Value;
         }
-
-        protected override void ClampValue()
-        {
-            _value.Value = Mathf.Clamp(_value.Value, 0, _maxValue.Value);
-            UpdateFillAmount();
-            UpdateLeftToFill();
-        }
-
-        public override void SetMaxValue(int value)
-        {
-            value = Mathf.Max(0, value);
-            _maxValue.Value = value;
-            ClampValue();
-        }
-
-        public override void Fill() => SetValue(_maxValue.Value);
-
-        protected override void UpdateLeftToFill() => _leftToFill.Value = CalculateLeftToFill();
-
-        protected override int CalculateLeftToFill() => _maxValue.Value - _value.Value;
     }
 }
