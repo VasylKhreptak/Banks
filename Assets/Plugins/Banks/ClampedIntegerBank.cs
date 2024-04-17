@@ -19,7 +19,7 @@ namespace Plugins.Banks
 
             _amount.Value = value;
             _maxAmount.Value = maxValue;
-            
+
             UpdateFillAmount();
         }
 
@@ -72,6 +72,8 @@ namespace Plugins.Banks
 
             SetValue(_amount.Value);
         }
+
+        public void Fill() => SetValue(_maxAmount.Value);
 
         public void Clear() => SetValue(0);
 

@@ -73,6 +73,8 @@ namespace Plugins.Banks
             SetValue(_amount.Value);
         }
         
+        public void Fill() => SetValue(_maxAmount.Value);
+        
         public void Clear() => SetValue(0);
 
         public bool HasEnough(float value) => _amount.Value >= value;

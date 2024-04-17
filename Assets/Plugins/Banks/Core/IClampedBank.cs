@@ -11,5 +11,7 @@ namespace Plugins.Banks.Core
         public IReadOnlyReactiveProperty<bool> IsFull { get; }
 
         public void SetMaxValue(T value);
+        
+        public void Fill();
     }
 }
