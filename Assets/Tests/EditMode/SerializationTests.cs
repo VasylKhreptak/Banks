@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
+using Plugins.Banks.Core;
 using Plugins.Banks.Float;
 using Plugins.Banks.Integer;
 
@@ -10,11 +11,11 @@ namespace Tests.EditMode
         [Test]
         public void IntegerBank()
         {
-            IntegerBank bank = new IntegerBank(10);
+            IBank<int> bank = new IntegerBank(10);
 
             string jsonString = JsonConvert.SerializeObject(bank);
 
-            IntegerBank deserializedBank = JsonConvert.DeserializeObject<IntegerBank>(jsonString);
+            IBank<int> deserializedBank = JsonConvert.DeserializeObject<IntegerBank>(jsonString);
 
             Assert.AreEqual(bank.Amount.Value, deserializedBank.Amount.Value);
             Assert.AreEqual(bank.IsEmpty.Value, deserializedBank.IsEmpty.Value);
@@ -23,11 +24,11 @@ namespace Tests.EditMode
         [Test]
         public void FloatBank()
         {
-            FloatBank bank = new FloatBank(10);
+            IBank<float> bank = new FloatBank(10);
 
             string jsonString = JsonConvert.SerializeObject(bank);
 
-            FloatBank deserializedBank = JsonConvert.DeserializeObject<FloatBank>(jsonString);
+            IBank<float> deserializedBank = JsonConvert.DeserializeObject<FloatBank>(jsonString);
 
             Assert.AreEqual(bank.Amount.Value, deserializedBank.Amount.Value);
             Assert.AreEqual(bank.IsEmpty.Value, deserializedBank.IsEmpty.Value);
@@ -36,11 +37,11 @@ namespace Tests.EditMode
         [Test]
         public void ClampedIntegerBank()
         {
-            ClampedIntegerBank bank = new ClampedIntegerBank(10, 100);
+            IClampedBank<int> bank = new ClampedIntegerBank(10, 100);
 
             string jsonString = JsonConvert.SerializeObject(bank);
 
-            ClampedIntegerBank deserializedBank = JsonConvert.DeserializeObject<ClampedIntegerBank>(jsonString);
+            IClampedBank<int> deserializedBank = JsonConvert.DeserializeObject<ClampedIntegerBank>(jsonString);
 
             Assert.AreEqual(bank.Amount.Value, deserializedBank.Amount.Value);
             Assert.AreEqual(bank.MaxAmount.Value, deserializedBank.MaxAmount.Value);
@@ -52,11 +53,11 @@ namespace Tests.EditMode
         [Test]
         public void ClampedFloatBank()
         {
-            ClampedFloatBank bank = new ClampedFloatBank(10, 100);
+            IClampedBank<float> bank = new ClampedFloatBank(10, 100);
 
             string jsonString = JsonConvert.SerializeObject(bank);
 
-            ClampedFloatBank deserializedBank = JsonConvert.DeserializeObject<ClampedFloatBank>(jsonString);
+            IClampedBank<float> deserializedBank = JsonConvert.DeserializeObject<ClampedFloatBank>(jsonString);
 
             Assert.AreEqual(bank.Amount.Value, deserializedBank.Amount.Value);
             Assert.AreEqual(bank.MaxAmount.Value, deserializedBank.MaxAmount.Value);
