@@ -253,5 +253,61 @@ namespace Tests.EditMode
 
             Assert.IsTrue(result);
         }
+        
+        [Test]
+        public void SetMaxValue()
+        {
+            IClampedBank<int> clampedBank = new ClampedIntegerBank(10, 20);
+
+            clampedBank.SetMaxValue(15);
+
+            Assert.AreEqual(10, clampedBank.Amount.Value);
+            Assert.AreEqual(15, clampedBank.MaxAmount.Value);
+            Assert.AreEqual(0.6666667f, clampedBank.FillAmount.Value);
+            Assert.IsFalse(clampedBank.IsEmpty.Value);
+            Assert.IsFalse(clampedBank.IsFull.Value);
+        }
+        
+        [Test]
+        public void SetNegativeMaxValue()
+        {
+            IClampedBank<int> clampedBank = new ClampedIntegerBank(10, 20);
+
+            clampedBank.SetMaxValue(-15);
+
+            Assert.AreEqual(0, clampedBank.Amount.Value);
+            Assert.AreEqual(0, clampedBank.MaxAmount.Value);
+            Assert.AreEqual(0, clampedBank.FillAmount.Value);
+            Assert.IsTrue(clampedBank.IsEmpty.Value);
+            Assert.IsTrue(clampedBank.IsFull.Value);
+        }
+        
+        [Test]
+        public void SetMoreThanAmountMaxValue()
+        {
+            IClampedBank<int> clampedBank = new ClampedIntegerBank(10, 20);
+
+            clampedBank.SetMaxValue(5);
+
+            Assert.AreEqual(5, clampedBank.Amount.Value);
+            Assert.AreEqual(5, clampedBank.MaxAmount.Value);
+            Assert.AreEqual(1, clampedBank.FillAmount.Value);
+            Assert.IsFalse(clampedBank.IsEmpty.Value);
+            Assert.IsTrue(clampedBank.IsFull.Value);
+        }
+        
+        [Test]
+        public void SetMaxValueMoreThanAmount()
+        {
+            IClampedBank<int> clampedBank = new ClampedIntegerBank(10, 20);
+
+            clampedBank.SetMaxValue(25);
+
+            Assert.AreEqual(10, clampedBank.Amount.Value);
+            Assert.AreEqual(25, clampedBank.MaxAmount.Value);
+            Assert.AreEqual(0.4f, clampedBank.FillAmount.Value);
+            Assert.IsFalse(clampedBank.IsEmpty.Value);
+            Assert.IsFalse(clampedBank.IsFull.Value);
+        }
     }
 }
