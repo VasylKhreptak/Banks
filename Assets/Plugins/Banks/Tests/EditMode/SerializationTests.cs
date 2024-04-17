@@ -4,7 +4,7 @@ using Plugins.Banks.Core;
 using Plugins.Banks.Float;
 using Plugins.Banks.Integer;
 
-namespace Tests.EditMode
+namespace Plugins.Banks.Tests.EditMode
 {
     public class SerializationTests
     {

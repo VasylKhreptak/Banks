@@ -2,7 +2,7 @@
 using Plugins.Banks.Core;
 using Plugins.Banks.Float;
 
-namespace Tests.EditMode
+namespace Plugins.Banks.Tests.EditMode
 {
     public class FloatBankTests
     {

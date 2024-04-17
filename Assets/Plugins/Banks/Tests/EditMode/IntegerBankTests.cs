@@ -2,7 +2,7 @@ using NUnit.Framework;
 using Plugins.Banks.Core;
 using Plugins.Banks.Integer;
 
-namespace Tests.EditMode
+namespace Plugins.Banks.Tests.EditMode
 {
     public class IntegerBankTests
     {
