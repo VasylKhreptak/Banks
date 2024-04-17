@@ -28,15 +28,14 @@ namespace Plugins.Banks.Integer
             _amount.Value += value;
         }
 
-        public bool Spend(int value)
+        public void Spend(int value)
         {
             value = Math.Max(0, value);
 
             if (HasEnough(value) == false)
-                return false;
+                return;
 
             _amount.Value -= value;
-            return true;
         }
 
         public void SetValue(int value)

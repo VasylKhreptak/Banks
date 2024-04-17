@@ -19,7 +19,7 @@ namespace Plugins.Banks.Float
 
             _amount.Value = value;
             _maxAmount.Value = maxValue;
-            
+
             UpdateFillAmount();
         }
 
@@ -42,17 +42,16 @@ namespace Plugins.Banks.Float
             UpdateFillAmount();
         }
 
-        public bool Spend(float value)
+        public void Spend(float value)
         {
             value = Mathf.Max(0, value);
 
             if (HasEnough(value) == false)
-                return false;
+                return;
 
             _amount.Value -= value;
 
             UpdateFillAmount();
-            return true;
         }
 
         public void SetValue(float value)
@@ -72,9 +71,9 @@ namespace Plugins.Banks.Float
 
             SetValue(_amount.Value);
         }
-        
+
         public void Fill() => SetValue(_maxAmount.Value);
-        
+
         public void Clear() => SetValue(0);
 
         public bool HasEnough(float value) => _amount.Value >= value;

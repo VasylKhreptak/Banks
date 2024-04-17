@@ -10,7 +10,7 @@ namespace Plugins.Banks.Core
 
         public void Add(T value);
 
-        public bool Spend(T value);
+        public void Spend(T value);
 
         public void SetValue(T value);
 
