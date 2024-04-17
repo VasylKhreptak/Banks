@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Plugins.Banks
+namespace Plugins.Banks.Float
 {
     public class ClampedFloatBank : IClampedBank<float>
     {

@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Plugins.Banks
+namespace Plugins.Banks.Integer
 {
     public class ClampedIntegerBank : IClampedBank<int>
     {

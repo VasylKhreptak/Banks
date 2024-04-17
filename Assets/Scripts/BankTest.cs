@@ -1,5 +1,6 @@
 ﻿using Plugins.Banks;
 using Plugins.Banks.Core;
+using Plugins.Banks.Float;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
