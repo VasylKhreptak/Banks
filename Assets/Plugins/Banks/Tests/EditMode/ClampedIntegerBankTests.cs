@@ -253,7 +253,7 @@ namespace Plugins.Banks.Tests.EditMode
 
             Assert.IsTrue(result);
         }
-        
+
         [Test]
         public void SetMaxValue()
         {
@@ -267,7 +267,7 @@ namespace Plugins.Banks.Tests.EditMode
             Assert.IsFalse(clampedBank.IsEmpty.Value);
             Assert.IsFalse(clampedBank.IsFull.Value);
         }
-        
+
         [Test]
         public void SetNegativeMaxValue()
         {
@@ -281,7 +281,7 @@ namespace Plugins.Banks.Tests.EditMode
             Assert.IsTrue(clampedBank.IsEmpty.Value);
             Assert.IsTrue(clampedBank.IsFull.Value);
         }
-        
+
         [Test]
         public void SetMoreThanAmountMaxValue()
         {
@@ -295,7 +295,7 @@ namespace Plugins.Banks.Tests.EditMode
             Assert.IsFalse(clampedBank.IsEmpty.Value);
             Assert.IsTrue(clampedBank.IsFull.Value);
         }
-        
+
         [Test]
         public void SetMaxValueMoreThanAmount()
         {

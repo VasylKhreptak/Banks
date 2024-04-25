@@ -1,8 +1,9 @@
-﻿using UniRx;
+﻿using System;
+using UniRx;
 
 namespace Plugins.Banks.Core
 {
-    public interface IClampedBank<T> : IBank<T>
+    public interface IClampedBank<T> : IBank<T> where T : IComparable<T>
     {
         public IReadOnlyReactiveProperty<T> MaxAmount { get; }
 
@@ -11,7 +12,7 @@ namespace Plugins.Banks.Core
         public IReadOnlyReactiveProperty<bool> IsFull { get; }
 
         public void SetMaxValue(T value);
-        
+
         public void Fill();
     }
 }

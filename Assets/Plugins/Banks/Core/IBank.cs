@@ -1,8 +1,9 @@
-﻿using UniRx;
+﻿using System;
+using UniRx;
 
 namespace Plugins.Banks.Core
 {
-    public interface IBank<T>
+    public interface IBank<T> where T : IComparable<T>
     {
         public IReadOnlyReactiveProperty<T> Amount { get; }
 

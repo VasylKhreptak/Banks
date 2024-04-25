@@ -1,91 +1,20 @@
 ﻿using Plugins.Banks.Core;
-using UniRx;
 using UnityEngine;
 
 namespace Plugins.Banks.Integer
 {
-    public class ClampedIntegerBank : IClampedBank<int>
+    public class ClampedIntegerBank : BaseClampedBank<int>
     {
-        private readonly IntReactiveProperty _amount = new IntReactiveProperty();
-        private readonly IntReactiveProperty _maxAmount = new IntReactiveProperty();
-        private readonly FloatReactiveProperty _fillAmount = new FloatReactiveProperty();
-
         public ClampedIntegerBank() { }
 
-        public ClampedIntegerBank(int value, int maxValue)
-        {
-            maxValue = Mathf.Max(0, maxValue);
-            value = Mathf.Clamp(value, 0, maxValue);
+        public ClampedIntegerBank(int value, int maxValue) : base(value, maxValue) { }
 
-            _amount.Value = value;
-            _maxAmount.Value = maxValue;
+        protected override int Add(int a, int b) => a + b;
 
-            UpdateFillAmount();
-        }
+        protected override int Subtract(int a, int b) => a - b;
 
-        public IReadOnlyReactiveProperty<int> Amount => _amount;
+        protected override int Clamp(int value, int min, int max) => Mathf.Clamp(value, min, max);
 
-        public IReadOnlyReactiveProperty<int> MaxAmount => _maxAmount;
-
-        public IReadOnlyReactiveProperty<bool> IsEmpty => _amount.Select(x => x == 0).ToReadOnlyReactiveProperty();
-
-        public IReadOnlyReactiveProperty<bool> IsFull => _amount.Select(x => x == _maxAmount.Value).ToReadOnlyReactiveProperty();
-
-        public IReadOnlyReactiveProperty<float> FillAmount => _fillAmount;
-
-        public void Add(int value)
-        {
-            value = Mathf.Max(0, value);
-
-            _amount.Value = Mathf.Clamp(value + _amount.Value, 0, _maxAmount.Value);
-
-            UpdateFillAmount();
-        }
-
-        public void Spend(int value)
-        {
-            value = Mathf.Max(0, value);
-
-            if (HasEnough(value) == false)
-                return;
-
-            _amount.Value -= value;
-
-            UpdateFillAmount();
-        }
-
-        public void SetValue(int value)
-        {
-            value = Mathf.Clamp(value, 0, _maxAmount.Value);
-
-            _amount.Value = value;
-
-            UpdateFillAmount();
-        }
-
-        public void SetMaxValue(int value)
-        {
-            value = Mathf.Max(0, value);
-
-            _maxAmount.Value = value;
-
-            SetValue(_amount.Value);
-        }
-
-        public void Fill() => SetValue(_maxAmount.Value);
-
-        public void Clear() => SetValue(0);
-
-        public bool HasEnough(int value) => _amount.Value >= value;
-
-        private void UpdateFillAmount() => _fillAmount.Value = CalculateFillAmount();
-
-        private float CalculateFillAmount()
-        {
-            if (_maxAmount.Value == 0)
-                return 0;
-
-            return _amount.Value / (float)_maxAmount.Value;
-        }
+        protected override float Divide(int amount, int maxAmount) => (float)amount / maxAmount;
     }
 }
