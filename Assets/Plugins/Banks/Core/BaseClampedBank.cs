@@ -8,7 +8,10 @@ namespace Plugins.Banks.Core
         private readonly ReactiveProperty<T> _maxAmount = new ReactiveProperty<T>();
         private readonly FloatReactiveProperty _fillAmount = new FloatReactiveProperty();
 
-        public BaseClampedBank() { }
+        public BaseClampedBank()
+        {
+            IsFull = _amount.Select(x => x.CompareTo(_maxAmount.Value) == 0).ToReadOnlyReactiveProperty();
+        }
 
         public BaseClampedBank(T value, T maxValue)
         {
@@ -18,12 +21,14 @@ namespace Plugins.Banks.Core
             _amount.Value = value;
             _maxAmount.Value = maxValue;
 
+            IsFull = _amount.Select(x => x.CompareTo(_maxAmount.Value) == 0).ToReadOnlyReactiveProperty();
+
             UpdateFillAmount();
         }
 
         public IReadOnlyReactiveProperty<T> MaxAmount => _maxAmount;
 
-        public IReadOnlyReactiveProperty<bool> IsFull => _amount.Select(x => x.CompareTo(_maxAmount.Value) == 0).ToReadOnlyReactiveProperty();
+        public IReadOnlyReactiveProperty<bool> IsFull { get; }
 
         public IReadOnlyReactiveProperty<float> FillAmount => _fillAmount;
 

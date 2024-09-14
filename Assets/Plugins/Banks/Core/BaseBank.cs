@@ -8,18 +8,23 @@ namespace Plugins.Banks.Core
     {
         protected readonly ReactiveProperty<T> _amount = new ReactiveProperty<T>();
 
-        public BaseBank() { }
+        public BaseBank()
+        {
+            IsEmpty = _amount.Select(x => x.CompareTo(default) == 0).ToReadOnlyReactiveProperty();
+        }
 
         public BaseBank(T value)
         {
             value = Max(default, value);
 
             _amount.Value = value;
+
+            IsEmpty = _amount.Select(x => x.CompareTo(default) == 0).ToReadOnlyReactiveProperty();
         }
 
         public IReadOnlyReactiveProperty<T> Amount => _amount;
 
-        public IReadOnlyReactiveProperty<bool> IsEmpty => _amount.Select(x => x.CompareTo(default) == 0).ToReadOnlyReactiveProperty();
+        public IReadOnlyReactiveProperty<bool> IsEmpty { get; }
 
         public void Add(T value)
         {
